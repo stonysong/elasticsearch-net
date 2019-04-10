@@ -1,4 +1,4 @@
-:ref_current: https://www.elastic.co/guide/en/elasticsearch/reference/6.4
+:ref_current: https://www.elastic.co/guide/en/elasticsearch/reference/7.0
 
 :github: https://github.com/elastic/elasticsearch-net
 
@@ -7,7 +7,7 @@
 ////
 IMPORTANT NOTE
 ==============
-This file has been generated from https://github.com/elastic/elasticsearch-net/tree/master/src/Tests/Tests/QueryDsl/Geo/Shape/GeoShapeQueryUsageTests.cs. 
+This file has been generated from https://github.com/elastic/elasticsearch-net/tree/7.x/src/Tests/Tests/QueryDsl/Geo/Shape/GeoShapeQueryUsageTests.cs. 
 If you wish to submit a PR for any spelling mistakes, typos or grammatical errors for this file,
 please modify the original csharp file found at the link and submit the PR with that change. Thanks!
 ////
@@ -36,7 +36,7 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
+    .Field(p => p.Location)
     .Shape(s => s
         .Point(PointCoordinates)
     )
@@ -52,7 +52,7 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
+    Field = Infer.Field<Project>(p => p.Location),
     Shape = new PointGeoShape(PointCoordinates),
     Relation = GeoShapeRelation.Intersects,
 }
@@ -91,7 +91,7 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
+    .Field(p => p.Location)
     .Shape(s => s
         .MultiPoint(MultiPointCoordinates)
     )
@@ -107,7 +107,7 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
+    Field = Infer.Field<Project>(p => p.Location),
     Shape = new MultiPointGeoShape(MultiPointCoordinates),
     Relation = GeoShapeRelation.Intersects,
 }
@@ -152,7 +152,7 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
+    .Field(p => p.Location)
     .Shape(s => s
         .LineString(LineStringCoordinates)
     )
@@ -168,7 +168,7 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
+    Field = Infer.Field<Project>(p => p.Location),
     Shape = new LineStringGeoShape(LineStringCoordinates),
     Relation = GeoShapeRelation.Intersects,
 }
@@ -213,7 +213,7 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
+    .Field(p => p.Location)
     .Shape(s => s
         .MultiLineString(MultiLineStringCoordinates)
     )
@@ -229,7 +229,7 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
+    Field = Infer.Field<Project>(p => p.Location),
     Shape = new MultiLineStringGeoShape(MultiLineStringCoordinates),
     Relation = GeoShapeRelation.Intersects,
 }
@@ -547,7 +547,7 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
+    .Field(p => p.Location)
     .Shape(s => s
         .GeometryCollection(
             new PointGeoShape(PointCoordinates),
@@ -570,16 +570,16 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
-    Shape = new Nest.GeometryCollection(new IGeoShape[]
-        {
-            new PointGeoShape(PointCoordinates),
-            new MultiPointGeoShape(MultiPointCoordinates),
-            new LineStringGeoShape(LineStringCoordinates),
-            new MultiLineStringGeoShape(MultiLineStringCoordinates),
-            new PolygonGeoShape(PolygonCoordinates),
-            new MultiPolygonGeoShape(MultiPolygonCoordinates),
-        }),
+    Field = Infer.Field<Project>(p => p.Location),
+    Shape = new GeometryCollection(new IGeoShape[]
+    {
+        new PointGeoShape(PointCoordinates),
+        new MultiPointGeoShape(MultiPointCoordinates),
+        new LineStringGeoShape(LineStringCoordinates),
+        new MultiLineStringGeoShape(MultiLineStringCoordinates),
+        new PolygonGeoShape(PolygonCoordinates),
+        new MultiPolygonGeoShape(MultiPolygonCoordinates),
+    }),
     Relation = GeoShapeRelation.Intersects,
 }
 ----
@@ -835,7 +835,7 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
+    .Field(p => p.Location)
     .Shape(s => s
         .Envelope(EnvelopeCoordinates)
     )
@@ -851,7 +851,7 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
+    Field = Infer.Field<Project>(p => p.Location),
     Shape = new EnvelopeGeoShape(EnvelopeCoordinates),
     Relation = GeoShapeRelation.Intersects,
 }
@@ -896,7 +896,7 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
+    .Field(p => p.Location)
     .Shape(s => s
         .Circle(CircleCoordinates, "100m")
     )
@@ -912,7 +912,7 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
+    Field = Infer.Field<Project>(p => p.Location),
     Shape = new CircleGeoShape(CircleCoordinates, "100m"),
     Relation = GeoShapeRelation.Intersects,
 }
@@ -958,10 +958,10 @@ q
 .GeoShape(c => c
     .Name("named_query")
     .Boost(1.1)
-    .Field(p=>p.Location)
-    .IndexedShape(p=>p
+    .Field(p => p.Location)
+    .IndexedShape(p => p
         .Id(2)
-        .Path(pp=>pp.Location)
+        .Path(pp => pp.Location)
     )
     .Relation(GeoShapeRelation.Intersects)
 )
@@ -975,13 +975,12 @@ new GeoShapeQuery
 {
     Name = "named_query",
     Boost = 1.1,
-    Field = Infer.Field<Project>(p=>p.Location),
+    Field = Infer.Field<Project>(p => p.Location),
     IndexedShape = new FieldLookup
     {
         Id = 2,
         Index = Infer.Index<Project>(),
-        Type = Infer.Type<Project>(),
-        Path = Infer.Field<Project>(p=>p.Location),
+        Path = Infer.Field<Project>(p => p.Location),
     },
     Relation = GeoShapeRelation.Intersects
 }
@@ -997,7 +996,6 @@ new GeoShapeQuery
     "location": {
       "indexed_shape": {
         "id": 2,
-        "type": "doc",
         "index": "project",
         "path": "location"
       },

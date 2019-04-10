@@ -44,25 +44,40 @@ namespace DocGenerator
 			{ "Project.First.NumberOfCommits", "775" },
 			{ "LastNameSearch", "\"Stokes\"" },
 			{ "First.Language", "\"painless\"" },
-			{ "First.Init", "\"params._agg.map = [:]\"" },
+			{ "First.Init", "\"state.map = [:]\"" },
 			{
 				"First.Map",
-				"\"if (params._agg.map.containsKey(doc['state'].value)) params._agg.map[doc['state'].value] += 1 else params._agg.map[doc['state'].value] = 1;\""
+				"\"if (state.map.containsKey(doc['state'].value))" +
+				"    state.map[doc['state'].value] += 1;" +
+				"else" +
+				"    state.map[doc['state'].value] = 1;\""
 			},
 			{
 				"First.Reduce",
-				"\"def reduce = [:]; for (agg in params._aggs) { for (entry in agg.map.entrySet()) { if (reduce.containsKey(entry.getKey())) reduce[entry.getKey()] += entry.getValue(); else reduce[entry.getKey()] = entry.getValue(); } } return reduce;\""
+				"\"def reduce = [:];" +
+				"for (map in states)" +
+				"{" +
+				"    for (entry in map.entrySet())" +
+				"    {" +
+				"        if (reduce.containsKey(entry.getKey()))" +
+				"            reduce[entry.getKey()] += entry.getValue();" +
+				"        else" +
+				"            reduce[entry.getKey()] = entry.getValue();" +
+				"    }" +
+				"}" +
+				"return reduce;\""
 			},
+			{ "First.Combine", "\"return state.map;\"" },
 			{ "Second.Language", "\"painless\"" },
-			{ "Second.Combine", "\"def sum = 0.0; for (c in params._agg.commits) { sum += c } return sum\"" },
-			{ "Second.Init", "\"params._agg.commits = []\"" },
-			{ "Second.Map", "\"if (doc['state'].value == \\\"Stable\\\") { params._agg.commits.add(doc['numberOfCommits'].value) }\"" },
-			{ "Second.Reduce", "\"def sum = 0.0; for (a in params._aggs) { sum += a } return sum\"" },
+			{ "Second.Combine", "\"def sum = 0.0; for (c in state.commits) { sum += c } return sum\"" },
+			{ "Second.Init", "\"state.commits = []\"" },
+			{ "Second.Map", "\"if (doc['state'].value == \\\"Stable\\\") { state.commits.add(doc['numberOfCommits'].value) }\"" },
+			{ "Second.Reduce", "\"def sum = 0.0; for (a in states) { sum += a } return sum\"" },
 			{ "Script.Lang", "\"painless\"" },
-			{ "Script.Init", "\"params._agg.commits = []\"" },
-			{ "Script.Map", "\"if (doc['state'].value == \\\"Stable\\\") { params._agg.commits.add(doc['numberOfCommits'].value) }\"" },
-			{ "Script.Combine", "\"def sum = 0.0; for (c in params._agg.commits) { sum += c } return sum\"" },
-			{ "Script.Reduce", "\"def sum = 0.0; for (a in params._aggs) { sum += a } return sum\"" },
+			{ "Script.Init", "\"state.commits = []\"" },
+			{ "Script.Map", "\"if (doc['state'].value == \\\"Stable\\\") { state.commits.add(doc['numberOfCommits'].value) }\"" },
+			{ "Script.Combine", "\"def sum = 0.0; for (c in state.commits) { sum += c } return sum\"" },
+			{ "Script.Reduce", "\"def sum = 0.0; for (a in states) { sum += a } return sum\"" },
 			{ "EnvelopeCoordinates", @"new [] { new [] { 45.0, -45.0 }, new [] { -45.0, 45.0 }}" },
 			{ "CircleCoordinates", @"new [] { 45.0, -45.0 }" },
 			{ "MultiPointCoordinates", @"new [] { new [] {38.897676, -77.03653}, new [] {38.889939, -77.009051} }" },
@@ -226,9 +241,11 @@ namespace DocGenerator
 			var text =
 				$@"
 					using System;
+					using System.Linq;
                     using System.Collections.Generic;
 					using System.ComponentModel;
 					using System.Runtime.Serialization;
+					using Newtonsoft.Json;
 					using Newtonsoft.Json.Linq;
 
 					namespace Temporary
