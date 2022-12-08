@@ -11,7 +11,7 @@
     <LangVersion>Latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="ShellProgressBar" Version="4.2.0" />
     <PackageReference Include="CsQuery.Core" Version="2.0.1" />
     <!-- https://github.com/toddams/RazorLight/issues/172 -->
